@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'morsecode_listener'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.summary = 'Use in conjunction with an event driven application to listen for a morse code message.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/morsecode_listener.rb']

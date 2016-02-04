@@ -26,22 +26,29 @@ class MorseCodeListener
     if t < @short_delay then
       @a << @h[:dot]
     elsif t < @long_delay
-      @a << @h[:dash]
-    elsif t < @timeout
-      @a << @h[:separator]
+      @a << @h[:dash]      
     end
 
+    
     @thread = Thread.new do
 
-      sleep @long_delay
+      sleep @short_delay * 2
       @a << @h[:separator]
-      sleep @timeout - @long_delay
-      @a.pop
+      sleep @long_delay - @short_delay
+      @a << @h[:separator]
+      sleep @timeout - @long_delay - @short_delay
+      @a.pop 2
 
       s = @a.join
 
       if @notifier then
-        @notifier.message s
+
+        begin
+          @notifier.message s
+        rescue
+          puts 'warning: MorseCodeListener#on_keyup @notifier' + ($!).inspect
+        end
+
       else
         puts '>> ' + s
       end
