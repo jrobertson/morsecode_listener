@@ -5,11 +5,11 @@
 class MorseCodeListener
 
   def initialize(short_delay: 0.35, long_delay: 1, dot: 2, dash: 1, 
-        separator: 4, space: 5, timeout: 2, notifier: nil)
+        separator: 4, space: 5, timeout: 2, notifier: nil, &on_message)
 
     @short_delay, @long_delay, @timeout = short_delay, long_delay, timeout
     @h = { dot: dot, dash: dash, separator: separator, space: space }
-    @notifier = notifier
+    @notifier, @on_message = notifier, on_message
     @t, @a = nil, []
   end
 
@@ -49,6 +49,10 @@ class MorseCodeListener
         rescue
           puts 'warning: MorseCodeListener#on_keyup @notifier' + ($!).inspect
         end
+        
+      elsif @on_message
+        
+        @on_message.call s
 
       else
         puts '>> ' + s
